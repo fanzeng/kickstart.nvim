@@ -204,6 +204,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.keymap.set('n', '<leader>rp', ':w<CR>:exec 72."vsplit" | terminal python %<CR>', { desc = 'Run python' })
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -269,7 +270,7 @@ require('lazy').setup({
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
           else
-            gitsigns.nav_hunk 'next'
+            gitsigns.next_hunk()
           end
         end)
 
@@ -277,32 +278,32 @@ require('lazy').setup({
           if vim.wo.diff then
             vim.cmd.normal { '[c', bang = true }
           else
-            gitsigns.nav_hunk 'prev'
+            gitsigns.prev_hunk()
           end
         end)
 
         -- Actions
-        map('n', '<leader>hs', gitsigns.stage_hunk)
-        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = '[s]tage hunk' })
+        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = '[r]eset hunk' })
         map('v', '<leader>hs', function()
           gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end)
+        end, { desc = '[s]tage hunk' })
         map('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end)
-        map('n', '<leader>hS', gitsigns.stage_buffer)
-        map('n', '<leader>hu', gitsigns.undo_stage_hunk)
-        map('n', '<leader>hR', gitsigns.reset_buffer)
-        map('n', '<leader>hp', gitsigns.preview_hunk)
+        end, { desc = '[r]eset hunk' })
+        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = '[S]tage buffer' })
+        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = '[u]ndo stage hunk' })
+        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = '[R]eset buffer' })
+        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = '[p]review hunk' })
         map('n', '<leader>hb', function()
           gitsigns.blame_line { full = true }
-        end)
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
-        map('n', '<leader>hd', gitsigns.diffthis)
+        end, { desc = '[b]lame line' })
+        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[t]oggle line [b]lame' })
+        map('n', '<leader>hd', gitsigns.diffthis, { desc = '[d]iff this' })
         map('n', '<leader>hD', function()
           gitsigns.diffthis '~'
-        end)
-        map('n', '<leader>td', gitsigns.toggle_deleted)
+        end, { desc = '[D]iff this' })
+        map('n', '<leader>td', gitsigns.toggle_deleted, { desc = '[T]oggle [D]eleted' })
 
         -- Text object
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
@@ -740,10 +741,9 @@ require('lazy').setup({
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
-          -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -888,7 +888,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

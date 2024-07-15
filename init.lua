@@ -618,7 +618,21 @@ require('lazy').setup({
             },
           },
         },
-        jdtls = {},
+        jdtls = {
+          cmd = {
+            '/Library/Java/JavaVirtualMachines/liberica-jdk-21.jdk/Contents/Home/bin/java', -- Or the absolute path '/path/to/java11_or_newer/bin/java'
+          },
+          settings = {
+            java = {
+              signatureHelp = { enabled = true },
+              import = { enabled = true },
+              rename = { enabled = true },
+            },
+          },
+          init_options = {
+            bundles = {},
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed

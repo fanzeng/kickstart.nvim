@@ -618,6 +618,21 @@ require('lazy').setup({
             },
           },
         },
+        jdtls = {
+          cmd = {
+            '/Library/Java/JavaVirtualMachines/liberica-jdk-21.jdk/Contents/Home/bin/java', -- Or the absolute path '/path/to/java11_or_newer/bin/java'
+          },
+          settings = {
+            java = {
+              signatureHelp = { enabled = true },
+              import = { enabled = true },
+              rename = { enabled = true },
+            },
+          },
+          init_options = {
+            bundles = {},
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -818,7 +833,7 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- require('mini.surround').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
